@@ -1,29 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>Our simple HTTP server</title>
   <link rel="stylesheet" type="text/css" href="/style.css">
-  
-  <script>
 
+  <script>
+    let name = null;
+    let age = null;
+
+    function addUser() {
+      name = document.getElementById("nameField");
+      age = document.getElementById("ageField");
+
+      let url = 'http://127.0.0.1:3000/addUser';
+      alert(name);
+      fetch(url, {
+        method: "post",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify({
+          name: name,
+          age: age
+        })
+
+      }).then((response) => {
+        response.json().then((data) => {
+          console.log(data);
+        })
+        //console.log(response.json());
+      })
+    }
+
+    function fetchFunction(statusValue, method) {
+      let url = 'http://127.0.0.1:3000' + statusValue;
+      fetch(url, {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      }).then((response) => {
+        response.json().then((data) => {
+          console.log(data);
+        })
+        //console.log(response.json());
+      })
+    }
   </script>
 </head>
+
 <body>
   <section id="top">
     <h3>POST Status Code Tests</h3>
     <form id="nameForm" action="/addUser" method="post">
       <label for="name">Name: </label>
-      <input id="nameField" type="text" name="name" />
+      name: <input id="nameField" type="text" name="name" />
       <label for="age">Age: </label>
-      <input id="ageField" type="number" name="age" min="0" max="100" step="1"/>
+      age: <input id="ageField" type="number" name="age" min="0" max="100" step="1" />
       <input type="submit" value="Add User" />
     </form>
-    <form id="userForm" action="/getUsers" method="get">
-      <select id='urlField'>
+    <form id="userForm" action="/getUsers" method="post">
+      <select name="field" id='urlField'>
         <option value='/getUsers'>/getUsers</option>
         <option value='/notReal'>/notReal</option>
       </select>
-      <select id="methodSelect">
+      <select name="method" id="methodSelect">
         <option value="get">GET</option>
         <option value="head">HEAD</option>
       </select>
@@ -33,4 +76,5 @@
   <section id="content">
   </section>
 </body>
+
 </html>
