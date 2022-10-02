@@ -1,13 +1,3 @@
-const url = require('url');
-
-const users = {
-  name: {
-    name: 'name',
-    age: '1',
-  },
-};
-
-const qs = require('querystring');
 // function to send a json object
 const respondJSON = (request, response, status, object) => {
   // set status code and content type (application/json)
@@ -22,86 +12,118 @@ const respondJSON = (request, response, status, object) => {
   response.end();
 };
 
-const getUsers = (request, response) => {
-  let post = '';
-  request.on('data', (chunk) => {
-    post += chunk;
-  });
-  request.on('end', () => {
-    post = qs.parse(post);
-    if (post.field === '/getUsers') {
-      if (post.method === 'get') {
-        const responseJSON = {
-          users,
-        };
+// function to show a success status code
+const success = (request, response) => {
+  // message to send
+  const responseJSON = {
+    message: 'This is a successful response',
+    title: 'Success',
+  };
 
-        respondJSON(request, response, 200, responseJSON);
-      } else {
-        const responseJSON = {
-
-        };
-
-        respondJSON(request, response, 200, responseJSON);
-      }
-    } else {
-      const responseJSON = {
-
-      };
-      respondJSON(request, response, 404, responseJSON);
-    }
-  });
-  // response.redirect('127.0.0.1:3000');
+  // send our json with a success status code
+  respondJSON(request, response, 200, responseJSON);
 };
 
-const addUser = (request, response) => {
-  let post = '';
-  request.on('data', (chunk) => {
-    post += chunk;
-  });
-  request.on('end', () => {
-    post = qs.parse(post);
-    if (post.name === '' && post.age === '') {
-      const responseJSON = {
-        message: 'Name and age are both required.',
-        id: 'addUserMissingParams',
-      };
-      // send our json with a success status code
-      console.log('haha');
-      respondJSON(request, response, 400, responseJSON);
-    } else {
-      let include = false;
-      console.log(users);
-      console.log(users[post.name]);
-      if (users[post.name] !== undefined) {
-        include = true;
-      }
-      if (include === true) {
-        const responseJSON = {
+const badRequest = (request, response) => {
+  // message to send
+  const responseJSON = {
+    message: 'Missing valid query parameter set to true',
+    title: 'Bad Request',
+    id: 'bad Request',
+  };
 
-        };
-        respondJSON(request, response, 204, responseJSON);
-      } else {
-        const user = {
-          name: post.name,
-          age: post.age,
-        };
-        const {
-          name,
-        } = post;
-        users[name] = user;
-        // users.user = user;
-        const responseJSON = {
-          message: 'Create Successfully',
-          title: 'Created',
-        };
-        console.log(users);
-        respondJSON(request, response, 201, responseJSON);
-      }
-    }
-  });
+  // send our json with a success status code
+  respondJSON(request, response, 400, responseJSON);
+};
+
+const badRequestTrue = (request, response) => {
+  // message to send
+  const responseJSON = {
+    message: 'This request has the required parameters',
+
+  };
+
+  // send our json with a success status code
+  respondJSON(request, response, 400, responseJSON);
+};
+
+const unauthorized = (request, response) => {
+  // message to send
+  const responseJSON = {
+    message: 'Missing loggedIn query parameter set to yes',
+    title: 'Unauthorized',
+  };
+
+  // send our json with a success status code
+  respondJSON(request, response, 401, responseJSON);
+};
+
+const unauthorizedYes = (request, response) => {
+  // message to send
+  const responseJSON = {
+    message: 'You have successfully viewed the content.',
+  };
+
+  // send our json with a success status code
+  respondJSON(request, response, 401, responseJSON);
+};
+
+const forbidden = (request, response) => {
+  // message to send
+  const responseJSON = {
+    message: 'You do not have access to this content.',
+    id: 'forbidden',
+    title: 'Forbidden',
+  };
+
+  // send our json with a success status code
+  respondJSON(request, response, 403, responseJSON);
+};
+
+const internal = (request, response) => {
+  // message to send
+  const responseJSON = {
+    message: 'Internal Server Error. Something went wrong.',
+    id: 'internalError',
+    title: 'Internal',
+  };
+
+  // send our json with a success status code
+  respondJSON(request, response, 500, responseJSON);
+};
+
+const notImplemented = (request, response) => {
+  // message to send
+  const responseJSON = {
+    message: 'A get request for this page has not been implemented yet. Check again later for updated content.',
+    id: 'notImplemented',
+    title: 'notImplemented',
+  };
+
+  // send our json with a success status code
+  respondJSON(request, response, 500, responseJSON);
+};
+
+const anythingElse = (request, response) => {
+  // message to send
+  const responseJSON = {
+    message: 'The page you are looking for was not found',
+    id: 'notFound',
+    title: 'Resource Not Found',
+  };
+
+  // send our json with a success status code
+  respondJSON(request, response, 500, responseJSON);
 };
 
 module.exports = {
-  getUsers,
-  addUser,
+  success,
+  badRequest,
+  badRequestTrue,
+  unauthorized,
+  unauthorizedYes,
+  forbidden,
+  internal,
+  notImplemented,
+  anythingElse,
 };

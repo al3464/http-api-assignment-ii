@@ -1,11 +1,11 @@
 {
-  "name": "http-api-assignment-ii",
+  "name": "igme430_project1",
   "version": "1.0.0",
   "engines": {
     "node": "16.13.2",
     "npm": "8.19.2"
   },
-  "description": "assignment",
+  "description": "'project1'",
   "main": "index.js",
   "scripts": {
     "start": "node ./src/server.js",
@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/al3464/http-api-assignment-ii.git"
+    "url": "git+https://github.com/al3464/IGME430_Project1.git"
   },
-  "author": "archer lai",
+  "author": "ArcherLai",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/al3464/http-api-assignment-ii/issues"
+    "url": "https://github.com/al3464/IGME430_Project1/issues"
   },
-  "homepage": "https://github.com/al3464/http-api-assignment-ii#readme",
+  "homepage": "https://github.com/al3464/IGME430_Project1#readme",
   "devDependencies": {
     "eslint": "^8.24.0",
     "eslint-config-airbnb": "^19.0.4",

@@ -6,44 +6,34 @@
   <link rel="stylesheet" type="text/css" href="/style.css">
 
   <script>
-    let name = null;
-    let age = null;
+    let status;
+    let valid = false;
+    let loggedIn = false;
 
-    function addUser() {
-      name = document.getElementById("nameField");
-      age = document.getElementById("ageField");
+    function sendClick() {
 
-      let url = 'http://127.0.0.1:3000/addUser';
-      alert(name);
-      fetch(url, {
-        method: "post",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-
-        body: JSON.stringify({
-          name: name,
-          age: age
-        })
-
-      }).then((response) => {
-        response.json().then((data) => {
-          console.log(data);
-        })
-        //console.log(response.json());
-      })
+      var selectValue = document.getElementById('page');
+      var value = selectValue.options[selectValue.selectedIndex].value;
+      fetchFunction(value);
     }
 
-    function fetchFunction(statusValue, method) {
+    function setStatus(statusCode) {
+      status = statusCode;
+    }
+
+    function fetchFunction(statusValue) {
       let url = 'http://127.0.0.1:3000' + statusValue;
       fetch(url, {
-        method: method,
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         },
       }).then((response) => {
         response.json().then((data) => {
           console.log(data);
+          document.getElementById('title').innerHTML = data.title;
+          document.getElementById('message').innerHTML = data.message;
+          document.getElementById('content').hidden = false;
         })
         //console.log(response.json());
       })
@@ -53,27 +43,25 @@
 
 <body>
   <section id="top">
-    <h3>POST Status Code Tests</h3>
-    <form id="nameForm" action="/addUser" method="post">
-      <label for="name">Name: </label>
-      name: <input id="nameField" type="text" name="name" />
-      <label for="age">Age: </label>
-      age: <input id="ageField" type="number" name="age" min="0" max="100" step="1" />
-      <input type="submit" value="Add User" />
-    </form>
-    <form id="userForm" action="/getUsers" method="post">
-      <select name="field" id='urlField'>
-        <option value='/getUsers'>/getUsers</option>
-        <option value='/notReal'>/notReal</option>
-      </select>
-      <select name="method" id="methodSelect">
-        <option value="get">GET</option>
-        <option value="head">HEAD</option>
-      </select>
-      <input type="submit" value="Get User" />
-    </form>
+    <h3>Status Code Tests</h3>
+    <select id="page">
+      <option value="/success" onchange="getTableType()">Success</option>
+      <option value="/badRequest" onchange="getTableType()">Bad Request</option>
+      <option value="/unauthorized" onchange="getTableType()">Unauthorized</option>
+      <option value="/forbidden" onchange="getTableType()">Forbidden</option>
+      <option value="/internal" onchange="getTableType()">Internal</option>
+      <option value="/notImplemented" onchange="getTableType()">Not Implemented</option>
+      <option value="/notFound" onchange="getTableType()">Not Found</option>
+    </select>
+    <select id="type">
+      <option value="application/json">JSON</option>
+      <option value="text/xml">XML</option>
+    </select>
+    <button id="send" onclick="sendClick()">Send</button>
   </section>
-  <section id="content">
+  <section id="content" hidden="hidden">
+    <p><span id="title"></span></p>
+    <p><span id="message"></span></p>
   </section>
 </body>
 
