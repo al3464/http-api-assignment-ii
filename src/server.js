@@ -65,7 +65,7 @@ const handlePost = (request, response, parsedUrl) => {
   
 
   const handleGet = (request, response, parsedUrl) => {
-    // route to correct method based on url
+    // route to corre ct method based on url
     if(parsedUrl.pathname === '/'){
       htmlHandler.getIndex(request, response);
     }
@@ -90,11 +90,7 @@ const onRequest = (request, response) => {
   } else {
     handleGet(request, response, parsedUrl);
   }
-// Then we route based on the path that the user went to
-/*if (urlStruct[parsedUrl.pathname]) {
-    return urlStruct[parsedUrl.pathname](request, response);
-  }*/
-    //return urlStruct.notFound(request, response);
+
 
 };
    
